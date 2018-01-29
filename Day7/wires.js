@@ -172,6 +172,7 @@ FS.readFile("input", "utf8", function(error, contents) {
         return Instruction.fromText(line);
     }));
 
+    const instructionForB = instructions.get("b").instructionName = "956";
     const instructionForA = instructions.get("a");
 
     console.log(instructionForA.exec(instructions));
