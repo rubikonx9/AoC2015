@@ -1,57 +1,45 @@
 import Data.List.Split
 import Data.List
-import Data.Array
-
--- This solution seems correct, but doesnt work due to extreme memory consumption.
+import Data.Array.Unboxed
 
 data Action = TurnOn | TurnOff | Toggle deriving (Show)
 
 data Instruction = Instruction {
-    position :: (Int, Int),
-    action   :: Action
+    action        :: Action,
+    startPosition :: (Int, Int),
+    endPosition   :: (Int, Int)
 } deriving (Show)
 
-action2value :: Action -> Int -> Int
-action2value TurnOn  _ = 1
-action2value TurnOff _ = 0
-action2value Toggle  b = case b of 0 -> 1
-                                   1 -> 0
+type Grid = UArray (Int, Int) Int
 
-str2action :: String -> Action
-str2action str = if "turn on" `isPrefixOf` str then TurnOn
-                 else if "turn off" `isPrefixOf` str then TurnOff
-                 else Toggle
+parseInstruction :: String -> Instruction
+parseInstruction str =
+    let ws = words str
+        (action, rest) = case ws of
+            ("turn":"on":xs)  -> (TurnOn, xs)
+            ("turn":"off":xs) -> (TurnOff, xs)
+            ("toggle":xs)     -> (Toggle, xs)
+        [x1, y1] = map read $ splitOn "," (rest !! 0)
+        [x2, y2] = map read $ splitOn "," (rest !! 2)
+    in Instruction action (x1, y1) (x2, y2)
 
-str2range :: String -> [ (Int, Int) ]
-str2range str = range (start, end)
-    where wrds  = reverse $ words $ str
-          start = str2ints $ wrds !! 2
-          end   = str2ints $ wrds !! 0
+initialGrid :: Grid
+initialGrid = array ((0,0), (999,999)) [ ((x,y), 0) | x <- [0..999], y <- [0..999] ]
 
-str2ints :: String -> (Int, Int)
-str2ints str = (read x, read y)
-    where [x, y] = splitOn delim str
-          delim  = ","
-
-str2instructions :: String -> [ Instruction ]
-str2instructions str = [ Instruction { position = pos, action = act } | pos <- poss ]
-    where poss = str2range str
-          act  = str2action str
-
-updateGrid :: Array (Int, Int) Int -> Instruction -> Array (Int, Int) Int
-updateGrid arr instr = arr // [ (pos, val) ]
-    where pos = position instr
-          val = action2value (action instr) (arr ! pos)
+applyInstruction :: Grid -> Instruction -> Grid
+applyInstruction grid (Instruction action (x1, y1) (x2, y2)) =
+    grid // updates
+  where
+    updates = [ ((x, y), newValue (grid ! (x, y))) | x <- [x1..x2], y <- [y1..y2] ]
+    newValue v = case action of
+        TurnOn  -> 1
+        TurnOff -> 0
+        Toggle  -> 1 - v
 
 main :: IO ()
 main = do
     contents <- readFile "data/Day6/input"
 
-    let instructions = intercalate [] $ map str2instructions (lines contents)
-    let grid = array ((0,0),(999,999)) [ ((x, y), 0) | y <- [0..999], x <- [0..999] ]
-
-    let gridOut = foldl updateGrid grid instructions
-
-    let suma = foldl (+) 0 gridOut
-
-    print $ suma
+    let instructions = map parseInstruction (lines contents)
+    let finalGrid = foldl' applyInstruction initialGrid instructions
+    print $ sum (elems finalGrid)
