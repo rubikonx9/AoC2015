@@ -1,0 +1,82 @@
+cabal-version:      3.0
+name:               AoC2015
+version:            0.1.0.0
+license:            MIT
+license-file:       LICENSE
+author:             Tomasz Górecki
+maintainer:         tomasz.gorecki@protonmail.com
+build-type:         Simple
+
+common basic-setup
+    ghc-options:      -Wall
+    hs-source-dirs:   src
+    default-language: Haskell2010
+    build-depends:
+        base ^>=4.18.3.0
+
+executable Day1-1
+    import:  basic-setup
+    main-is: Day1/Floors.hs
+    build-depends:
+        split
+
+executable Day1-2
+    import:  basic-setup
+    main-is: Day1/Floors2.hs
+    build-depends:
+        split
+
+executable Day2-1
+    import:  basic-setup
+    main-is: Day2/WrappingPaper.hs
+    build-depends:
+        split
+
+executable Day2-2
+    import:  basic-setup
+    main-is: Day2/WrappingRibbon.hs
+    build-depends:
+        split
+
+executable Day3-1
+    import:  basic-setup
+    main-is: Day3/Houses.hs
+    build-depends:
+        split
+
+executable Day3-2
+    import:  basic-setup
+    main-is: Day3/Houses2.hs
+    build-depends:
+        split
+
+executable Day4-1
+    import:  basic-setup
+    main-is: Day4/AdventCoins.hs
+    build-depends:
+        split,
+        bytestring,
+        pureMD5
+
+executable Day5-1
+    import:  basic-setup
+    main-is: Day5/NiceWords.hs
+    build-depends:
+
+executable Day5-2
+    import:  basic-setup
+    main-is: Day5/NicerWords.hs
+    build-depends:
+
+executable Day6-1
+    import:  basic-setup
+    main-is: Day6/Lights.hs
+    build-depends:
+        split,
+        array
+
+executable Day7-1
+    import:  basic-setup
+    main-is: Day7/Wires.hs
+    build-depends:
+        split

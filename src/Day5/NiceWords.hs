@@ -16,8 +16,9 @@ doesntHaveForbidden :: String -> Bool
 doesntHaveForbidden string = not $ any (\forbidden -> forbidden `isInfixOf` string) forbiddens
     where forbiddens = ["ab", "cd", "pq", "xy"]
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day5/input"
 
     let niceStrings = filter isStringNice $ lines contents
 

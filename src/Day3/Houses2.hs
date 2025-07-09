@@ -22,8 +22,9 @@ travel from by = Position {
     y = y from + y by
 }
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day3/input"
 
     let chars         = getChars contents
     let directions    = map charToDirection chars
@@ -32,7 +33,7 @@ main = do
     let directions1   = [directions !! x | x <- indices1]
     let directions2   = [directions !! x | x <- indices2]
     let startingPoint = Position { x = 0, y = 0 }
-    
+
     let travelHistory = nub $ (scanl travel startingPoint directions1) ++ (scanl travel startingPoint directions2)
 
     print $ length travelHistory

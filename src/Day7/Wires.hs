@@ -90,8 +90,9 @@ parse str = (input, output)
 notEmpty :: String -> Bool
 notEmpty str = not $ null str
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day7/input"
 
     let rawInstructions = filter notEmpty (lines contents)
     let allInstructions = map parseInstruction rawInstructions

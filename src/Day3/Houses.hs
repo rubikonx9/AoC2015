@@ -22,8 +22,9 @@ travel from by = Position {
     y = y from + y by
 }
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day3/input"
 
     let chars         = getChars contents
     let directions    = map charToDirection chars

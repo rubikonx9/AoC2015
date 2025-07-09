@@ -9,8 +9,9 @@ parseFloorChar "(" = 1
 parseFloorChar ")" = -1
 parseFloorChar _   = 0
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day1/input"
     let chars      = getChars contents
     let ints       = filter (/= 0) $ map parseFloorChar chars
     let conseqSums = tail $ scanl (+) 0 ints

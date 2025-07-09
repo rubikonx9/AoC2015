@@ -8,11 +8,13 @@ genHash secret = show hash
           bytes = C.pack secret
 
 genFullSecrets :: String -> [String]
-genFullSecrets secret = [ secret ++ show number | number <- [1..] ]
+genFullSecrets secret = [ secret ++ show number | number <- [1 :: Integer ..] ]
 
 hashStartsWithZeros :: String -> Bool
 hashStartsWithZeros hash = isPrefixOf "000000" hash -- Number of zeroes...
 
+main :: IO ()
 main = do
-    print $ (\(Just i) -> i + 1) $ findIndex hashStartsWithZeros $ map genHash $ genFullSecrets secret
+    let result = findIndex hashStartsWithZeros $ map genHash $ genFullSecrets secret
+    print $ maybe "No solution found" (show . (+1)) result
         where secret  = "iwrupvqb"

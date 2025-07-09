@@ -43,8 +43,9 @@ updateGrid arr instr = arr // [ (pos, val) ]
     where pos = position instr
           val = action2value (action instr) (arr ! pos)
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day6/input"
 
     let instructions = intercalate [] $ map str2instructions (lines contents)
     let grid = array ((0,0),(999,999)) [ ((x, y), 0) | y <- [0..999], x <- [0..999] ]
@@ -54,4 +55,3 @@ main = do
     let suma = foldl (+) 0 gridOut
 
     print $ suma
-

@@ -16,8 +16,9 @@ hasNiceDuplicate string = any isNiceDuplicate realSubseqs3
           subseqs3     = filter isLength3 subseqs
           subseqs      = subsequences string
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day5/input"
 
     let niceStrings = filter isStringNice $ lines contents
     print $ length niceStrings
@@ -30,5 +31,4 @@ hasPair string = any (== True) checks
           substrings = len2Substrings string
 
 len2Substrings :: String -> [String]
-len2Substrings string = [ [ string !! x, string !! (x + 1) ] | x <- [0..length string - 2] ] 
-    
+len2Substrings string = [ [ string !! x, string !! (x + 1) ] | x <- [0..length string - 2] ]

@@ -1,4 +1,3 @@
-import Data.List
 import Data.List.Split
 
 parseBoxInfo :: String -> [Int]
@@ -16,18 +15,18 @@ intsToBox [ l ]       = intsToBox [ l, 1, 1 ]
 intsToBox [ l, w ]    = intsToBox [ l, w, 1 ]
 intsToBox [ l, w, h ] = Box { len = l, width = w, height = h }
 
-shortestSides :: Box -> [Int]
-shortestSides box = take 2 $ sort [ len box, width box, height box ]
+sidesAreas :: Box -> [Int]
+sidesAreas box = [ len box * width box, len box * height box, width box * height box ]
 
-wrappingLength :: Box -> Int
-wrappingLength box = sum sides * 2 + volume
-    where sides  = shortestSides box
-          volume = len box * width box * height box
+wrappingArea :: Box -> Int
+wrappingArea box = sum areas * 2 + minimum areas
+    where areas = sidesAreas box
 
+main :: IO ()
 main = do
-    contents <- readFile "input"
+    contents <- readFile "data/Day2/input"
     let boxesSizes = map (parseBoxInfo) (lines contents)
     let boxes      = map (intsToBox) boxesSizes
-    let boxesAreas = map (wrappingLength) boxes
+    let boxesAreas = map (wrappingArea) boxes
 
     print $ sum boxesAreas
