@@ -98,7 +98,7 @@ class Grid {
     }
 }
 
-FS.readFile("input", "utf8", function(error, contents) {
+FS.readFile("data/Day6/input", "utf8", function(error, contents) {
     if (error) {
         return;
     }

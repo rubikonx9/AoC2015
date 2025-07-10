@@ -159,7 +159,7 @@ class Instructions extends Array {
     }
 }
 
-FS.readFile("input", "utf8", function(error, contents) {
+FS.readFile("data/Day7/input", "utf8", function(error, contents) {
     if (error) {
         return;
     }
